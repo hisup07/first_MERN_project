@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
-    res.json({ user });
+    res.json(user);
   } catch (err) {
     res.status(500).json({ msg: "server error" });
   }
@@ -24,7 +24,9 @@ router.post(
   "/",
   [
     check("email", "Please include a valied email").isEmail(),
-    check("password", "Please is required").exists()
+    check("password", "password is required")
+      .not()
+      .isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -39,7 +41,7 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ error: [{ msg: "invalied credentails" }] });
+          .json({ errors: [{ msg: "Invaled cradentials" }] });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
@@ -47,7 +49,7 @@ router.post(
       if (!isMatch) {
         return res
           .status(400)
-          .json({ error: [{ msg: "Invalied credaentials" }] });
+          .json({ errors: [{ msg: "Invalied credaentials" }] });
       }
       const payload = {
         user: {
