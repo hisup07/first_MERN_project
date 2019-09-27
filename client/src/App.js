@@ -12,13 +12,14 @@ import AddEdu from "./components/profile-form/AddEdu";
 import AddExp from "./components/profile-form/AddExp";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
+import Posts from "./components/posts/Posts";
 //redux
 import { loadUser } from "./actions/auth";
 import { Provider } from "react-redux";
 import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import PrivateRoute from "./components/router/PrivateRoute";
-
+import Post from "./components/post/Post";
 import "./App.css";
 
 if (localStorage.token) {
@@ -54,6 +55,8 @@ function App() {
                 path="/edit-profile"
                 component={Editprofile}
               />
+              <PrivateRoute exact path="/posts" component={Posts} />
+              <PrivateRoute exact path="/posts/:id" component={Post} />
               <PrivateRoute exact path="/add-experience" component={AddExp} />
               <PrivateRoute exact path="/add-education" component={AddEdu} />
             </Switch>

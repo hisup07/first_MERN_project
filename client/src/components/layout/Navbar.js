@@ -22,6 +22,11 @@ function Navbar({ auth: { isAuthenticate, loading }, logout }) {
           <span className="hide-sm">Logout</span>
         </Link>
       </li>
+      <li>
+        <Link to="/posts">
+          <i className="" /> <span className="">Posts</span>
+        </Link>
+      </li>
     </ul>
   );
 
